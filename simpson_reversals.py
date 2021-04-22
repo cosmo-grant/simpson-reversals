@@ -20,16 +20,19 @@ comparing treatment group and control group, there might be:
     in each of eight sub-sub-sub-populations, a higher recovery rate
     and so on.
 
-The function simpson_tree generates an example of k reversals, for any k. And
-the function draw_layers visualizes each layer: e.g. the recovery rates in the
-relevant populations, across treatment and control groups.
+The function simpson_tree generates an example of k reversals, for any k. The
+function draw_layers visualizes each layer: e.g. the recovery rates in the
+relevant populations, across treatment and control groups. And the function
+to_data prints count data corresponding to a given Simpson tree.
 
-The accompanying jupyter notebook explains the construction.
+For more explanation see the accompanying README.md.
 """
 
 import matplotlib.pyplot as plt
 import itertools
 import more_itertools
+import fractions
+import math
 
 
 def reverse_columns(tall_col, short_col):
@@ -132,8 +135,7 @@ def cum_steps(lst):
     For example, [1, 2, 3, 4] -> (0, 1), (1, 3), (3, 6), (6, 10).
     """
     return more_itertools.pairwise(
-        itertools.accumulate([0] + lst)
-    )
+        itertools.accumulate([0] + lst))
 
 
 def draw_layer(layer):
@@ -188,5 +190,83 @@ def draw_layers(first_layer, k):
         draw_layer(layer)
 
 
+def to_fractions(layer):
+    """Returns a new layer, where each float has been converted to a Fraction.
+
+    Args:
+        layer: List of two lists, a layer in a Simpson tree.
+    """
+    try:
+        return [fractions.Fraction(i).limit_denominator() for i in layer]
+    except:
+        return [to_fractions(i) for i in layer]
+
+
+def lcm(iterable):
+    """Returns the least common multiple of an iterable of numbers."""
+    lcm = 1
+    for i in iterable:
+        lcm = lcm * i // math.gcd(lcm, i)
+    return lcm
+
+
+def to_data(tree):
+    """Prints integer data corresponding to a Simpson tree.
+
+    A Simpson tree contains floats, representing various proportions of the
+    population. This function "denormalizes" the tree, turning proportions into
+    counts, and prints them. It should find the smallest population size
+    consistent with the given tree.
+
+    Args:
+        tree: A Simpson tree, which is a dictionary, mapping an index to the
+        corresponding layer in the tree.
+    """
+    f_tree = {k: to_fractions(v) for k, v in tree.items()}
+    height_denoms, width_denoms = [], []
+
+    # extract denominators
+    for k in f_tree:
+        taller, shorter = f_tree[k]
+        for h, w in taller:
+            height_denoms.append(h.denominator)
+            width_denoms.append(w.denominator)
+        for h, w in shorter:
+            height_denoms.append(h.denominator)
+            width_denoms.append(w.denominator)
+
+    height_multiplier = lcm(height_denoms)
+    width_multiplier = lcm(width_denoms)
+    n = height_multiplier * width_multiplier # total population size
+
+    for k in f_tree:
+
+        # Taller columns always come first in f_tree
+        #   so we need to reverse every other layer.
+        treatment, control = f_tree[k][(k+1) % 2], f_tree[k][k%2]
+
+        # e.g. subpopulations in the third layer are labeled 00, 01, 10, 11
+        labels = [''.join(word)
+                  for word in itertools.product(('0', '1'), repeat=k-1)]
+
+        # When k==1, we should just print: a out of b people recovered.
+        # When k>1, we should prefix that with the subpopulation's label.
+        prefix = 'In sub-population ' if k > 1 else ''
+        middle = ', ' if k > 1 else ''
+        print(f'\n***LAYER {k}***')
+
+        print('\nTREATMENT GROUP')
+        for (h, w), label in zip(treatment, labels):
+            print(prefix + f'{label}' \
+                  + middle + f'{h*w*n} out of {w*n} people recovered.')
+
+        print('\nCONTROL GROUP')
+        for (h, w), label in zip(control, labels):
+            print(prefix + f'{label}' + \
+                  middle + f'{h*w*n} out of {w*n} people recovered.')
+
+
 # first_layer = [[(3/5, .5)], [(2/5, .5)]]
-# draw_layers(first_layer, 5)
+# tree = simpson_tree(first_layer, 3)
+# to_data(tree)
+
