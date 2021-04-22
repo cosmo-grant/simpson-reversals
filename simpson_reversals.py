@@ -23,9 +23,9 @@ comparing treatment group and control group, there might be:
 The function simpson_tree generates an example of k reversals, for any k. The
 function draw_layers visualizes each layer: e.g. the recovery rates in the
 relevant populations, across treatment and control groups. And the function
-to_data prints count data corresponding to a given Simpson tree.
+to_data generates and prints count data corresponding to a given Simpson tree.
 
-For more explanation see the accompanying README.md.
+For more explanation see the accompanying jupyter notebook.
 """
 
 import matplotlib.pyplot as plt
@@ -215,8 +215,7 @@ def to_data(tree):
 
     A Simpson tree contains floats, representing various proportions of the
     population. This function "denormalizes" the tree, turning proportions into
-    counts, and prints them. It should find the smallest population size
-    consistent with the given tree.
+    counts, and prints them.
 
     Args:
         tree: A Simpson tree, which is a dictionary, mapping an index to the
