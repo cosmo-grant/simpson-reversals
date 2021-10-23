@@ -59,7 +59,9 @@ Let's check:
 
 We were about right: the recovery rate in the treatment group is around .3 and in the control group is around .6.
 
-So we can use our physical intuition, about merging columns of water, to move from the first picture, representing the segregrated data, to the second picture, representing the aggregated data.
+We can use our physical intuition, about merging columns of water, to move from the first picture, representing the segregrated data, to the second picture, representing the aggregated data.
+
+So the third observation, at last, is that the recovery rate of people in the treatment group is lower than of people in the control group.
 
 ### 1.4 Why the trick works
 
@@ -73,15 +75,17 @@ When merging columns, total width is preserved and total area is preserved. That
 
 ### 1.5 Why Simpson reversals matter
 
+Remember our three observations: comparing treatment and control group, the recovery rate is *higher* among men, *higher* among women, but *lower* among people. This phenomenon is known as a Simpson reversal.
+
 When our data exhibit a Simpson reversal, what to conclude?
 
-We could go by the recovery rates overall (lower in treatment than control group), concluding that the drug is bad. Or we could go by the recovery rates among men and among women (higher in treatment than control groups), concluding that the drug is good.
+We could go by the recovery rates among people (lower in treatment than control group), concluding that the drug is bad. Or we could go by the recovery rates among men and among women (higher in treatment than control groups), concluding that the drug is good.
 
 Judea Pearl has argued that the answer cannot be determined from the data alone, but depends in addition on the *causal story* behind the data. This debate is what makes Simpson reversals particularly interesting.
 
 ### 1.6 Multiple Simpson reversals
 
-The data could exhibit not just one but indefinitely many Simpson reversals.
+Data could exhibit not just one but indefinitely many Simpson reversals.
 
 For example, comparing treatment group and control group, there might be:
 
