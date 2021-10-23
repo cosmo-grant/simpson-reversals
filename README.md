@@ -97,7 +97,7 @@ For example, comparing treatment group and control group, there might be:
 
 Let's visualize it.
 
-For men over 50 with a comorbidity, men over 50 without a comorbidity, men under 50 with a comorbidity, ..., women under 50 without a combordity, *lower* recovery rates**:
+For men over 50 with a comorbidity, men over 50 without a comorbidity, men under 50 with a comorbidity, ..., women under 50 without a combordity, *lower* recovery rates:
 
 <p align="center">
 <img src="second_4.png">
