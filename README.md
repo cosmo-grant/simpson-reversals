@@ -2,17 +2,17 @@
 
 The module `simpson_reversals.py` provides functions to generate and visualize indefinitely many Simpson reversals.
 
-This README explains what Simpson reversals are, then how to use the functions.
+This README explains what Simpson reversals are, then how the functions work.
 
-## What are Simpson reversals?
+## 1. What are Simpson reversals?
 
-### Drug trial
+### 1.1 Drug trial
 
 For concreteness I'll focus on an imaginary drug trial.
 
 To assess the effectiveness of a drug, we give some patients ("the treatment group") the drug and other patients ("the control group") a placebo, and look at the recovery rates.
 
-The idea is: if the recovery rate is higher in the treatment group than the control group, that's evidence the drug is beneficial; if the recovery rate is lower in the treatment group than the control group, that's evidence the drug is harmful.
+The idea is: if the recovery rate is higher in the treatment group than the control group, that's evidence the drug is good; if the recovery rate is lower in the treatment group than the control group, that's evidence the drug is bad.
 
 The table shows the results:
 
@@ -21,7 +21,7 @@ The table shows the results:
 |    recovered   |            8           |             8            |          28          |            1           |
 | didn't recover |            2           |            32            |          12          |            9           |
 
-### Visualizing the results
+### 1.2 Visualizing the results
 
 The table isn't easy to take in at a glance: too many categories, too many numbers. Let's use a picture instead.
 
@@ -31,17 +31,17 @@ The table isn't easy to take in at a glance: too many categories, too many numbe
 
 How to interpret the picture?
 
-Focus, for example, on the unhatched orange column. It corresponds to men in the treatment group. Its *width* is the proportion of patients who are men in the treatment group: 10 out of 100, or .1. Its *height* is the recovery rate of men in the treamtment group: 8 out of 10, or .8. Its area, therefore, is the proportion of patients who are men in the treatment group and who recovered: 8 out of 100, .08.
+Focus, for example, on the unhatched orange column. It corresponds to men in the treatment group. Its *width* is the proportion of patients who are men in the treatment group: 10 out of 100, or .1. Its *height* is the recovery rate of men in the treatment group: 8 out of 10, or .8. Its area, therefore, is the proportion of patients who are men in the treatment group and who recovered: 8 out of 100, or .08.
 
 And similarly for the other columns: orange for men and green for women; unhatched for treatment group and hatched for control group.
 
-### Three observations
+### 1.3 Three observations
 
-**First observation.** The unhatched orange column is taller than the hatched orange column, or in other words, the recovery rate of men in the treatment group is higher than of men in the control group.
+*First observation.* The unhatched orange column is taller than the hatched orange column, or in other words, the recovery rate of men in the treatment group is higher than of men in the control group.
 
-**Second observation.** The unhatched green column is taller than the hatched green column, or in other words, the recovey rate of women in the treatment group is higher than of women in the control group.
+*Second observation.* The unhatched green column is taller than the hatched green column, or in other words, the recovery rate of women in the treatment group is higher than of women in the control group.
 
-**Third observation.** Let's compare the recovery rates, not of men, not of women, but of *people*: the recovery rate of people in the treatment group versus people in the control group.
+*Third observation.* Let's compare the recovery rates, not of men, not of women, but of *people*: the recovery rate of people in the treatment group versus people in the control group.
 
 Those recovery rates are not directly represented in the picture. There's a column for men in the treatment group, and a column for women in the treatment group, but no column for people in the treatment group. And similarly for the control group. So we need to work out the new columns ourselves.
 
@@ -49,7 +49,7 @@ Representing the results using the picture makes it easy to work out the new col
 
 For example, take the treatment group. The trick is to imagine that the two unhatched columns are columns of water with a barrier between them. To merge the columns, remove the barrier and let the water slosh together. At what height will it settle? Around .3. That column is what we're after: its *width* is the proportion of people who are in the treatment group; its *height* is the recovery rate of people in the treatment group.
 
-Similarly for the control group. Imagine the two hatched columns are columns of water with a barrier between them. Remove the barrier and let the water slosh together. At what height will it setle? Around .6. That column is what we're after: its *width* is the proportion of people who are in the control group; its *height* is the recovery rate of people in the control group.
+Similarly for the control group. Imagine the two hatched columns are columns of water with a barrier between them. Remove the barrier and let the water slosh together. At what height will it settle? Around .6. That column is what we're after: its *width* is the proportion of people who are in the control group; its *height* is the recovery rate of people in the control group.
 
 Let's check:
 
@@ -61,34 +61,34 @@ We were about right: the recovery rate in the treatment group is around .3 and i
 
 So we can use our physical intuition, about merging columns of water, to move from the first picture, representing the segregrated data, to the second picture, representing the aggregated data.
 
-### Why the trick works
+### 1.4 Why the trick works
 
-Take the treatment group.
+Take the treatment group, for example.
 
 The proportion of patients who are in the treatment group equals the proportion of patients who are men in the treatment group plus the proportion of patients who are women in the treatment group. In other words, when merging the columns total width is preserved.
 
-The proportion of patients who are in the treatment group and who recovered equals the proportion of patients who are men in the treatment group and who recovered plus the proportion of patients who are women in the treatment group and who recovered. In other words, when the merging columns, total area is preserved.
+The proportion of patients who are in the treatment group and who recovered equals the proportion of patients who are men in the treatment group and who recovered plus the proportion of patients who are women in the treatment group and who recovered. In other words, when merging the columns total area is preserved.
 
 When merging columns, total width is preserved and total area is preserved. That's how columns of water behave. So that's why we can merge columns like water.
 
-### Why Simpson reversals matter
+### 1.5 Why Simpson reversals matter
 
 When our data exhibit a Simpson reversal, what to conclude?
 
-We could go by the recovery rates overall (higher in control than treatment group), concluding that the drug is beneficial. Or we could go by the recovery rates among men and among women (higher in treatment than control groups), concluding that the drug is harmful.
+We could go by the recovery rates overall (lower in treatment than control group), concluding that the drug is bad. Or we could go by the recovery rates among men and among women (higher in treatment than control groups), concluding that the drug is good.
 
 Judea Pearl has argued that the answer cannot be determined from the data alone, but depends in addition on the *causal story* behind the data. This debate is what makes Simpson reversals particularly interesting.
 
-### Multiple Simpson reversals
+### 1.6 Multiple Simpson reversals
 
 The data could exhibit not just one but indefinitely many Simpson reversals.
 
 For example, comparing treatment group and control group, there might be:
 
-  - overall, a *lower* recovery rate
-  - for men and for women, *higher* recovery rates
-  - for men over 50, men under 50, women over 50, and women under 50, *lower* recovery rates
-  - for men over 50 with a comorbidity, men over 50 without a comorbidity, men under 50 with a comorbidity, ..., women under 50 without a combordity, *higher* recovery rates
+  - overall, a *higher* recovery rate
+  - for men and for women, *lower* recovery rates
+  - for men over 50, men under 50, women over 50, and women under 50, *higher* recovery rates
+  - for men over 50 with a comorbidity, men over 50 without a comorbidity, men under 50 with a comorbidity, ..., women under 50 without a combordity, *lower* recovery rates
   - and so on.
 
 Let's visualize it.
@@ -117,7 +117,7 @@ Merge columns like water once more. Thus overall, a *higher* recovery rate:
 <img src="second_1.png">
 </p>
 
-### What's driving the reversals
+### 1.7 What's driving the reversals
 
 <p align="center">
 <img src="dividing_columns.png">
@@ -131,22 +131,22 @@ Now take the dashed columns on the right. One is tall and narrow. The other is s
 
 That is what drives a Simpson reversal: tall-wide and short-narrow versus tall-narrow and short-wide.
 
-## Making the pictures
+## 2. Making the pictures
 
-### Usage
+### 2.1 Usage
 
 The main function is `draw_layers()`.
 
 ```
-first_layer = [[(16/50, .5)], [(29/50, .5)]]
+first_layer = [[(30/50, 50/100)], [(20/50, 50/100)]]
 draw_layers(first_layer, 4)
 ```
 
-The user specifies the heights and widths of the columns representing treatment and control groups. The function `draw_layers()` generates the specified number of Simpson reversals and creates matplotlib figures, like those above, to visualize each reversal.
+The user specifies the heights and widths of the columns representing treatment and control groups. It assumes the first column is taller. No loss of generality, since you can reinterpret unhatched as control group and hatched as treatment group.) The function `draw_layers()` generates the specified number of Simpson reversals and creates matplotlib figures, similar to those above, to visualize each reversal.
 
 You can also just draw a particular layer, using `draw_layer()`.
 
-### Recipe
+### 2.2 Recipe
 
 How are the reversals generated?
 
@@ -168,12 +168,12 @@ The original columns are shown by the solid lines. The desired new columns are s
 
 We take z_t to be a proportion of the original left column's width, so is in (0, 1), and similarly for z_s. And we take all the heights to be in (0, 1) too.
 
-For any *a* < *b*>, *c* < *d*, all between 0 and 1, we can set:
+For any *a* < *b*, *c* < *d*, all between 0 and 1, we can set:
 
   1. h_{tl} = h_t + *a*(1 - h_t)
   2. h_{sl} = h_t + *b*(1 - h_t)
-  3. h_{tr} = *c* h_s
-  4. h_{sr} = *d* h_s
+  3. h_{tr} = *c*h_s
+  4. h_{sr} = *d*h_s
   
 Because we need to preserve areas, we must have:
 

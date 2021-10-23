@@ -12,8 +12,6 @@ See README for details.
 import matplotlib.pyplot as plt
 import itertools
 import more_itertools
-import fractions
-import math
 
 
 def reverse_columns(tall_col, short_col):
