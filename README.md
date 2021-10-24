@@ -146,7 +146,7 @@ first_layer = [[(30/50, 50/100)], [(20/50, 50/100)]]
 draw_layers(first_layer, 4)
 ```
 
-The user specifies the heights and widths of the columns representing treatment and control groups. It assumes the first column is taller. No loss of generality, since you can reinterpret unhatched as control group and hatched as treatment group.) The function `draw_layers()` generates the specified number of Simpson reversals and creates matplotlib figures, similar to those above, to visualize each reversal.
+The user specifies the heights and widths of the columns representing treatment and control groups. It assumes the first column is taller. (No loss of generality, since you can reinterpret unhatched as control group and hatched as treatment group.) The function `draw_layers()` generates the specified number of Simpson reversals and creates matplotlib figures, similar to those above, to visualize each reversal.
 
 You can also just draw a particular layer, using `draw_layer()`.
 
